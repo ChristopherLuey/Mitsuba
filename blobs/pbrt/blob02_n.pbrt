@@ -1,0 +1,31 @@
+Film "image" "string filename" ["blob02_n.exr"]
+"integer xresolution" [256] "integer yresolution" [192]
+
+LookAt 2.86933 -1.59411 4.0391  -0.104408 -0.0317293 -0.175596  0 1 0
+Camera "perspective" "float fov" [30]
+
+Sampler "lowdiscrepancy" "integer pixelsamples" [8]
+SurfaceIntegrator "debug" "string red" "nx" "string green" "ny" "string blue" "nz"
+
+WorldBegin
+
+AttributeBegin
+CoordSysTransform "camera"
+LightSource "point" "color I" [20000 20000 20000]
+AttributeEnd
+
+AttributeBegin
+
+Rotate 21.3397  1 0 0
+Rotate 38.4876  0 1 0
+Rotate   8.9082  0 0 1
+Shape "wavefront" "string objfile" ["../obj/blob02.obj"]
+AttributeEnd
+
+WorldEnd
+
+#m  ps = [ 2.86933 -1.59411 4.0391 ];
+#m  lk = [ -0.104408 -0.0317293 -0.175596];
+#m  up = [   0.000    1.000    0.000];
+#m  rt = [21.3397 38.4876 8.9082 ];
+#m  fov = 30.0;

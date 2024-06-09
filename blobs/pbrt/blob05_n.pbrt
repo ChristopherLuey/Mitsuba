@@ -1,0 +1,31 @@
+Film "image" "string filename" ["blob05_n.exr"]
+"integer xresolution" [256] "integer yresolution" [192]
+
+LookAt   -1.188    0.262   35.293     0.000    0.000    0.000     0.000    1.000    0.000
+Camera "perspective" "float fov" [5.0]
+
+Sampler "lowdiscrepancy" "integer pixelsamples" [8]
+SurfaceIntegrator "debug" "string red" "nx" "string green" "ny" "string blue" "nz"
+
+WorldBegin
+
+AttributeBegin
+CoordSysTransform "camera"
+LightSource "point" "color I" [20000 20000 20000]
+AttributeEnd
+
+AttributeBegin
+
+Rotate  110.98 1 0 0
+Rotate -115.48 0 1 0
+Rotate -120.46 0 0 1
+Shape "wavefront" "string objfile" ["../obj/blob05.obj"]
+AttributeEnd
+
+WorldEnd
+
+#m  ps = [  -1.188    0.262   35.293];
+#m  lk = [   0.000    0.000    0.000];
+#m  up = [   0.000    1.000    0.000];
+#m  rt = [  110.98  -115.48  -120.46];
+#m  fov = 5.0;

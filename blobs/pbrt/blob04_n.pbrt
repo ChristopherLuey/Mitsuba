@@ -1,0 +1,30 @@
+Film "image" "string filename" ["blob04_n.exr"]
+"integer xresolution" [256] "integer yresolution" [192]
+
+LookAt -0.002890  1.917800  60.876200  -0.002890  1.917800  0  0 1 0
+Camera "perspective" "float fov" [30]
+
+Sampler "lowdiscrepancy" "integer pixelsamples" [8]
+SurfaceIntegrator "debug" "string red" "nx" "string green" "ny" "string blue" "nz"
+
+WorldBegin
+
+AttributeBegin
+CoordSysTransform "camera"
+LightSource "point" "color I" [ .7 .7 .7 ]
+AttributeEnd
+
+AttributeBegin
+Material "uber" "color Kd" [0.4 0.4 0.4] "color Ks" [0.0 0.0 0.0] "float roughness" [0.0]
+Scale -1 1 1
+Shape "wavefront" "string objfile" ["../obj/blob04.obj"]
+AttributeEnd
+
+WorldEnd
+
+
+#m  ps = [  -0.002890  1.917800  60.876200];
+#m  lk = [  -0.002890  1.917800   0];
+#m  up = [   0.000    1.000    0.000];
+#m  rt = [  0 0 0];
+#m  fov = 30.0;
