@@ -6,8 +6,8 @@ mi.set_variant('llvm_ad_rgb')
 def create_scene():
     # Function to create the camera
     def create_camera(position, intrinsic, distortion):
-        # Calculate the field of view from the focal length
-        sensor_width = 1280  # Assuming the sensor width in pixels
+        # Calculate the field of view from the focal length, assuming the sensor is 1280 pixels wide
+        sensor_width = 1280 
         fov = 2 * np.arctan(sensor_width / (2 * intrinsic[0, 0])) * 180 / np.pi  # FOV in degrees
         
         camera = mi.load_dict({
@@ -33,7 +33,7 @@ def create_scene():
         return camera
 
     # Left camera parameters
-    left_camera_position = [-17.5, 0, 0]
+    left_camera_position = [-17.5, 0, 0]  # In millimeters
     left_camera_intrinsic = np.array([
         [641.843486, 0, 638.93610662],
         [0, 643.53319355, 393.7352744],
@@ -44,7 +44,7 @@ def create_scene():
     ])
 
     # Right camera parameters
-    right_camera_position = [32.5, 0, 0]
+    right_camera_position = [32.5, 0, 0]  # In millimeters
     right_camera_intrinsic = np.array([
         [644.32498369, 0, 654.6296148],
         [0, 645.56357309, 399.63693664],
@@ -58,7 +58,7 @@ def create_scene():
     left_camera = create_camera(left_camera_position, left_camera_intrinsic, left_camera_distortion)
     right_camera = create_camera(right_camera_position, right_camera_intrinsic, right_camera_distortion)
 
-    # Light positions
+    # Light positions (already in millimeters)
     light_positions = np.array([
         [200, 0, 305],
         [190.211303, 61.803399, 305],
@@ -119,15 +119,3 @@ def create_scene():
     # Add lights to the scene dictionary
     scene_dict.update(lights)
     return scene_dict
-
-# Create the scene
-scene_dict = create_scene()
-
-# Load the scene
-scene = mi.load_dict(scene_dict)
-
-# Render the scene
-image = mi.render(scene)
-
-# Save the rendered image
-mi.util.write_bitmap("output.png", image)

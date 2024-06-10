@@ -4,14 +4,16 @@ from scene import *
 # MacOS
 mi.set_variant('llvm_ad_rgb') # CPU vectorized using llvm
 
+# Create the scene
 scene_dict = create_scene()
 
-# 1: Load the scene
+# Load the scene
 scene = mi.load_dict(scene_dict)
 
-# 2: Render the scene
-image = mi.render(scene, spp=256)
+# Render the scene
+image = mi.render(scene)
 
-# 3: Save the image
-mi.util.write_bitmap("my_first_render.png", image)
+# Save the rendered image
+mi.util.write_bitmap("output.png", image)
+
 
