@@ -5,7 +5,11 @@ mi.set_variant('llvm_ad_rgb')
 
 def create_scene():
     # Function to create the camera
-    def create_camera(name, position, intrinsic, distortion):
+    def create_camera(position, intrinsic, distortion):
+        # Calculate the field of view from the focal length
+        sensor_width = 1280  # Assuming the sensor width in pixels
+        fov = 2 * np.arctan(sensor_width / (2 * intrinsic[0, 0])) * 180 / np.pi  # FOV in degrees
+        
         camera = mi.load_dict({
             'type': 'perspective',
             'to_world': mi.ScalarTransform4f.look_at(
@@ -14,7 +18,7 @@ def create_scene():
                 up=mi.ScalarVector3f(0, 1, 0)
             ),
             'fov_axis': 'x',
-            'fov': 45,
+            'fov': fov,
             'sampler': {
                 'type': 'independent',
                 'sample_count': 64
@@ -51,8 +55,8 @@ def create_scene():
     ])
 
     # Create cameras
-    left_camera = create_camera('left_camera', left_camera_position, left_camera_intrinsic, left_camera_distortion)
-    right_camera = create_camera('right_camera', right_camera_position, right_camera_intrinsic, right_camera_distortion)
+    left_camera = create_camera(left_camera_position, left_camera_intrinsic, left_camera_distortion)
+    right_camera = create_camera(right_camera_position, right_camera_intrinsic, right_camera_distortion)
 
     # Light positions
     light_positions = np.array([
@@ -86,7 +90,7 @@ def create_scene():
             'position': mi.ScalarPoint3f(pos),
             'intensity': {
                 'type': 'spectrum',
-                'value': 300
+                'value': 3000  # Increased intensity to ensure proper illumination
             }
         }
 
@@ -96,17 +100,17 @@ def create_scene():
         'integrator': {
             'type': 'path'
         },
-        'left_camera': left_camera,
-        'right_camera': right_camera,
+        'sensor_0': left_camera,
+        'sensor_1': right_camera,
         'blob': {
             'type': 'obj',
             'filename': 'blobs/obj/blob01.obj',
-            'to_world': mi.ScalarTransform4f.translate([7.5, 0, 0]),
+            'to_world': mi.ScalarTransform4f.translate([0, 0, 0]) @ mi.ScalarTransform4f.scale([0.1, 0.1, 0.1]),  # Adjusted scaling to approximately 100 mm diameter
             'bsdf': {
                 'type': 'diffuse',
                 'reflectance': {
                     'type': 'rgb',
-                    'value': [0.1, 0.1, 0.1]
+                    'value': [0.5, 0.5, 0.5]  # Lightened the material
                 }
             }
         }
@@ -116,3 +120,14 @@ def create_scene():
     scene_dict.update(lights)
     return scene_dict
 
+# Create the scene
+scene_dict = create_scene()
+
+# Load the scene
+scene = mi.load_dict(scene_dict)
+
+# Render the scene
+image = mi.render(scene)
+
+# Save the rendered image
+mi.util.write_bitmap("output.png", image)
